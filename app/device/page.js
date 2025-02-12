@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import Image from "next/image"; // Gunakan Image dari Next.js
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const LOCAL_API_URL = "http://localhost:3010/status"; // Ganti dengan IP ESP32
 
@@ -44,13 +47,11 @@ export default function IotDoor() {
   return (
     <div className="flex flex-col items-center min-h-screen p-8 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Header */}
-      <header className="w-full flex justify-between items-center py-4 px-6 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-        <h1 className="text-xl font-bold">🔐 IoT Pintu</h1>
-      </header>
+    <Header title="🔐 IoT Status Pintu Gerbang" />
 
       {/* Status Pintu */}
       <main className="flex flex-col items-center gap-6 mt-8">
-        <h2 className="text-lg font-semibold">🚪 Status Pintu</h2>
+        <h2 className="text-lg font-semibold">🚪 Status Pintu Gerbang Rumah</h2>
 
         {loading ? (
           <p>🔄 Memuat status...</p>
@@ -59,13 +60,16 @@ export default function IotDoor() {
         ) : (
           <div
             className={`p-6 w-64 rounded-lg shadow-lg flex flex-col items-center transition ${
-              doorStatus === "on" ? "bg-green-300 dark:bg-green-500" : "bg-gray-200 dark:bg-gray-700"
+              doorStatus === "on" ? "bg-green-300 dark:bg-green-500" : "bg-rose-200 dark:bg-sky-700"
             }`}
           >
-            <img
-              src={`https://picsum.photos/200/200?random=${doorStatus === "on" ? 1 : 2}`}
-              alt="Door"
-              className="w-32 h-32 rounded-lg"
+            {/* Gunakan Next.js Image Component */}
+            <Image
+              src={doorStatus === "on" ? "/on.png" : "/off.png"}
+              alt="Door Status"
+              width={200} // Ukuran gambar
+              height={200} // Ukuran gambar
+              className="rounded-lg"
             />
             <p className="mt-3 text-xl font-semibold">
               {doorStatus === "on" ? "Terbuka" : "Tertutup"}
@@ -75,9 +79,7 @@ export default function IotDoor() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-10 text-center text-sm">
-        <p>© {new Date().getFullYear()} Smart Home | Powered by Next.js</p>
-      </footer>
+<Footer />
     </div>
   );
 }
